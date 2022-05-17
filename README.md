@@ -9,18 +9,20 @@ The DrapeBot project runs over a period of four years from January 2021 to Decem
 ## Packages description <a name="desc"></a>
 
 The packages relative to the DrapeBot project are divided into:
-DrapeCell with ABB robot:
-[abb_app](https://github.com/CNR-STIIMA-IRAS/abb_app): contains configuration files to load the control enviroment for the ABB robot 
-[abb_description](https://github.com/CNR-STIIMA-IRAS/abb_description): contains URDF and meshes of the ABB robot 
-[abb_moveit](https://github.com/CNR-STIIMA-IRAS/abb_moveit): contains moveit configuration files for the ABB robot 
-TEZ cell with two KUKA robots:
-[tez_app](https://github.com/CNR-STIIMA-IRAS/tez_app): contains configuration files to load the control enviroment for the TEZ cell 
-[tez_description](https://github.com/CNR-STIIMA-IRAS/tez_description): contains URDF and meshes of the TEZ cell 
-[tez_moveit](https://github.com/CNR-STIIMA-IRAS/tez_moveit): contains moveit configuration files of the TEZ cell
-Common for communication and control:
-[cnr_mqtt](https://github.com/CNR-STIIMA-IRAS/cnr_mqtt): module to convert mqtt message to call ROS FollowJointTrajectoryMsg action
-[cnr_mqtt_hardware_interface](https://github.com/CNR-STIIMA-IRAS/cnr_mqtt_hardware_interface): hardware interface that implements MQTT commnication
-[deformation_ctrl](https://github.com/CNR-STIIMA-IRAS/deformation_ctrl): implements control logic to deviate the robot from a nominal trajectory according to human motions 
+1. DrapeCell with ABB robot:
+    [abb_app](https://github.com/CNR-STIIMA-IRAS/abb_app): contains configuration files to load the control enviroment for the ABB robot  
+    [abb_description](https://github.com/CNR-STIIMA-IRAS/abb_description): contains URDF and meshes of the ABB robot  
+    [abb_moveit](https://github.com/CNR-STIIMA-IRAS/abb_moveit): contains moveit configuration files for the ABB robot  
+
+2. TEZ cell with two KUKA robots:
+[tez_app](https://github.com/CNR-STIIMA-IRAS/tez_app): contains configuration files to load the control enviroment for the TEZ cell  
+[tez_description](https://github.com/CNR-STIIMA-IRAS/tez_description): contains URDF and meshes of the TEZ cell  
+[tez_moveit](https://github.com/CNR-STIIMA-IRAS/tez_moveit): contains moveit configuration files of the TEZ cell  
+
+3. Common for communication and control:
+[cnr_mqtt](https://github.com/CNR-STIIMA-IRAS/cnr_mqtt): module to convert mqtt message to call ROS FollowJointTrajectoryMsg action  
+[cnr_mqtt_hardware_interface](https://github.com/CNR-STIIMA-IRAS/cnr_mqtt_hardware_interface): hardware interface that implements MQTT commnication  
+[deformation_ctrl](https://github.com/CNR-STIIMA-IRAS/deformation_ctrl): implements control logic to deviate the robot from a nominal trajectory according to human motions  
 
 
 ## Install ROS packages <a name="ros"></a>
