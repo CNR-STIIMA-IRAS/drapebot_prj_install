@@ -1,86 +1,60 @@
 # drapebot_prj_install
+The  [DrapeBot](https://www.drapebot.eu/) project aims at human-robot collaborative draping. The robot is supposed to assist during the transport of the large material patches and to drape in areas of low curvature.  The project aim at a smooth and efficient interaction between the human and the robot. 
+The DrapeBot project runs over a period of four years from January 2021 to December 2024.
+## Index
 
-1. [Install ROS packages](#ros)
-2. [QtCreator](#qt)
-3. [Atom](#atom)
-4. [Troubleshooting with Sharework cell](#troubleshoot)
-5. [Useful stuff](#tricks)
+1. [Packages description](#desc)
+2. [Install packages](#ros)
+
+## Packages description <a name="desc"></a>
+
+The packages relative to the DrapeBot project are divided into:
+DrapeCell with ABB robot:
+[abb_app](https://github.com/CNR-STIIMA-IRAS/abb_app): contains configuration files to load the control enviroment for the ABB robot 
+[abb_description](https://github.com/CNR-STIIMA-IRAS/abb_description): contains URDF and meshes of the ABB robot 
+[abb_moveit](https://github.com/CNR-STIIMA-IRAS/abb_moveit): contains moveit configuration files for the ABB robot 
+TEZ cell with two KUKA robots:
+[tez_app](https://github.com/CNR-STIIMA-IRAS/tez_app): contains configuration files to load the control enviroment for the TEZ cell 
+[tez_description](https://github.com/CNR-STIIMA-IRAS/tez_description): contains URDF and meshes of the TEZ cell 
+[tez_moveit](https://github.com/CNR-STIIMA-IRAS/tez_moveit): contains moveit configuration files of the TEZ cell
+Common for communication and control:
+[cnr_mqtt](https://github.com/CNR-STIIMA-IRAS/cnr_mqtt): module to convert mqtt message to call ROS FollowJointTrajectoryMsg action
+[cnr_mqtt_hardware_interface](https://github.com/CNR-STIIMA-IRAS/cnr_mqtt_hardware_interface): hardware interface that implements MQTT commnication
+[deformation_ctrl](https://github.com/CNR-STIIMA-IRAS/deformation_ctrl): implements control logic to deviate the robot from a nominal trajectory according to human motions 
+
 
 ## Install ROS packages <a name="ros"></a>
+### Preliminaries
 
-Installation of the JRL-CARI Workspace can be done in a single workspace or a multiple workspaces.
-The second saves you times during compilation.
-
-### Installation on a single workspace
-_see [here](installation_single_workspace.md)_
+As a preliminary, to install required repositories, follow [here](https://github.com/JRL-CARI-CNR-UNIBS/installation/blob/master/installation_single_workspace.md).
+Recommended single workspace installation.
 
 
-### Installation on multiple (overlayed) workspaces
-_see [here](installation_multiple_workspace.md)_
-
-## Install QtCreator <a name="qt"></a>
-_see [here](qt_creator_installation.md)_
-
-## Configure QtCreator
-_see [here](qtcreator.md)_
-
-## Configure Atom <a name="atom"></a>
-_see [here](atom.md)_
-
-## Troubleshooting with Sharework cell <a name="troubleshoot"></a>
-
-Cannot connect to the UR10e robot:
-
-1) can you ping the robot (ping 192.168.10.1)?
-2) if yes, can you login to the robot (ssh root@192.168.10.1  pwd:easybot)?
-3) if yes, did you open the firewall ports?  sudo ufw allow 50001/tcp AND sudo ufw allow 50002/tcp
-
-## Useful stuff <a name="tricks"></a>
-
-### Catkin commands
-* clean all the deleted packages
+### Install required packages for DrapeBot
+#### source previous workspace
 ```
-catkin clean --orphans
+source <path_to_control_ws>/devel/setub.bash
+```
+#### create and init a new workspace
+```
+mkdir drapebot_ws
+cd drapebot_ws
+mkdir src
+catkin build -cs
+```
+#### clone this repository
+```
+git clone https://github.com/CNR-STIIMA-IRAS/drapebot_prj_install.git
+```
+#### initialize and merge with wstool
+```
+wstool init src
+wstool merge -t src drapebot_prj_install/drapebot.rosinstall
+wstool update -t src
+```
+#### build and source the workspace
+```
+catkin build -cs
+source devel/setup.bash
 ```
 
-### Debug commands
-* disable thread message in gdb:
-```
-nano ~/.gdbinit
-set print thread-events off
-```
-
-### Git commands
-_see [here](git_useful_commands.md)_
-
-### Bash tips
-Copy these commands into your .bashrc file:
-* see git branch name next to the path in the terminal. It also show the status of the branch (unstaged files, sync with remote), see [here](https://jon.sprig.gs/blog/post/1940) for details
-
-```
-force_color_prompt=yes
-color_prompt=yes
-parse_git_branch() {
- git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/(\1)/'
-}
-GIT_PS1_DESCRIBE_STYLE='contains'
-GIT_PS1_SHOWCOLORHINTS='y'
-GIT_PS1_SHOWDIRTYSTATE='y'
-GIT_PS1_SHOWSTASHSTATE='y'
-GIT_PS1_SHOWUNTRACKEDFILES='y'
-GIT_PS1_SHOWUPSTREAM='auto'
-if [ "$color_prompt" = yes ]; then
- PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[01;31m\]$(__git_ps1)\[\033[00m\]\$ '
-else
- PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w$(parse_git_branch)\$ '
-fi
-unset color_prompt force_color_prompt
-```
-
-* automatic ls after cd or roscd
-
-```
-function cd {
-    builtin cd "$@" && ls -F
-    }
-```
